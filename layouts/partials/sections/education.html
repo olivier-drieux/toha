@@ -1,27 +1,29 @@
-{{ $sectionID := replace (lower .section.name) " " "-"  }}
+{{ $sectionID := replace (lower .section.name) " " "-" }}
 {{ if .section.id }}
 {{ $sectionID = .section.id }}
 {{ end }}
 
 <div class="container-fluid anchor pb-5 education-section">
-  {{ if not (.section.hideTitle) }}
+    {{ if not (.section.hideTitle) }}
     <h1 class="text-center">
-        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
-  {{ else }}
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}
+    </h1>
+    {{ else }}
     <h1 class="text-center" style="display: none">
-        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
-  {{ end }}
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}
+    </h1>
+    {{ end }}
 
-  <div class="container">
-    <table class="education-info-table">
-        <tbody>
-            {{ $count := len .degrees }}
-            {{ range .degrees}}
-            <tr>
-                <td class="icon">
-                    {{ if gt $count 1}}
-                    <div class="hline"></div>
-                    {{ end }}
+    <div class="container">
+        <table class="education-info-table">
+            <tbody>
+                {{ $count := len .degrees }}
+                {{ range .degrees}}
+                <tr>
+                    <td class="icon">
+                        {{ if gt $count 1}}
+                        <div class="hline"></div>
+                        {{ end }}
                         <div class="icon-holder">
                             <i class="fas {{ .icon }}"></i>
                         </div>
@@ -32,66 +34,81 @@
                     <td class="details">
                         <div class="degree-info card">
                             <div class="row">
-                                <div class="col-lg-10 col-md-8">
+                                <div class="col-lg-10 col-md-8 mb-2">
                                     {{ if .institution.url }}
-                                        <h5><a href="{{ .institution.url }}" title="{{ .institution.name }}" target="_blank" rel="noopener">{{ .institution.name }}</a></h5>
-                                    {{ else }}
-                                        <h5>{{ .institution.name }}</h5>
+                                    <a href="{{ .institution.url }}" title="{{ .institution.name }}" target="_blank"
+                                        rel="noopener">
+                                        {{ end }}
+                                        <div class="row align-items-center pl-2">
+                                            {{ if .institution.logo }}
+                                            <img src="{{ .institution.logo }}" alt="{{ .institution.name }}"
+                                                title="{{ .institution.name }}" height="50" class="mr-2" />
+                                            {{ end }}
+                                            <h5 class="mb-0">{{ .institution.name }}</h5>
+                                        </div>
+
+                                        {{ if .institution.url }}
+                                    </a>
                                     {{ end }}
                                 </div>
                                 <div class="timeframe col-lg-2 col-md-4">{{ .timeframe }}</div>
                             </div>
                             <h6>{{ .name }}</h6>
                             {{ if .grade }}
-                                <h6><span class="text-muted">{{ .grade.scale }}: </span><span>{{ .grade.achieved }}</span> {{ i18n "out_of"}} <span>{{ .grade.outOf }}</span></h6>
+                            <h6><span class="text-muted">{{ .grade.scale }}: </span><span>{{ .grade.achieved }}</span>
+                                {{ i18n "out_of"}} <span>{{ .grade.outOf }}</span></h6>
                             {{ end }}
                             {{ if .publications }}
-                                <div class="publications">
-                                    <h6 class="text-muted">{{ i18n "publications"}}</h6>
-                                    <ul>
-                                        {{ range .publications }}
-                                            {{ if .url }}
-                                                <li><a href="{{ .url }}" title="{{ .title }}" target="_blank" rel="noopener">{{ .title }}</a></li>
-                                            {{ else }}
-                                                <li>{{ .title }}</li>
-                                            {{ end }}
-                                        {{ end }}
-                                    </ul>
-                                </div>
+                            <div class="publications">
+                                <h6 class="text-muted">{{ i18n "publications"}}</h6>
+                                <ul>
+                                    {{ range .publications }}
+                                    {{ if .url }}
+                                    <li><a href="{{ .url }}" title="{{ .title }}" target="_blank" rel="noopener">{{
+                                            .title }}</a></li>
+                                    {{ else }}
+                                    <li>{{ .title }}</li>
+                                    {{ end }}
+                                    {{ end }}
+                                </ul>
+                            </div>
                             {{ end }}
                             {{ if .takenCourses }}
-                            {{ $collapseAfter  := .takenCourses.collapseAfter | default 2 }}
+                            {{ $collapseAfter := .takenCourses.collapseAfter | default 2 }}
                             <div class="taken-courses">
                                 <h6 class="text-muted">{{ i18n "taken_courses"}}</h6>
                                 {{ if .takenCourses.showGrades }}
-                                {{ $hideScale  := .takenCourses.hideScale }}
+                                {{ $hideScale := .takenCourses.hideScale }}
                                 <table>
                                     <thead>
                                         <th class="course-name-header">{{ i18n "course_name"}}</th>
-                                        {{ if not $hideScale  }}<th>{{ i18n "total_credit"}}</th>{{ end }}
+                                        {{ if not $hideScale }}<th>{{ i18n "total_credit"}}</th>{{ end }}
                                         <th>{{ i18n "obtained_credit"}}</th>
                                     </thead>
                                     <tbody>
                                         {{ range $index,$course := .takenCourses.courses }}
                                         <tr class="course {{ if ge $index $collapseAfter }}hidden-course{{ end}}">
                                             <td>{{ $course.name }}</td>
-                                            {{ if not $hideScale  }}<td>{{ $course.outOf }}</td>{{ end }}
+                                            {{ if not $hideScale }}<td>{{ $course.outOf }}</td>{{ end }}
                                             <td>{{ $course.achieved }}</td>
                                         </tr>
                                         {{ end }}
                                     </tbody>
                                 </table>
                                 {{ else }}
-                                    <ul>
-                                        {{ range $index,$course := .takenCourses.courses }}
-                                        <li class="course {{ if ge $index $collapseAfter }}hidden-course{{ end}}">{{ $course.name }}</li>
-                                        {{ end }}
-                                    </ul>
+                                <ul>
+                                    {{ range $index,$course := .takenCourses.courses }}
+                                    <li class="course {{ if ge $index $collapseAfter }}hidden-course{{ end}}">{{
+                                        $course.name }}</li>
+                                    {{ end }}
+                                </ul>
                                 {{ end }}
                                 {{ if gt (len .takenCourses.courses ) $collapseAfter }}
-                                    <button type="button" class="btn btn-link show-more-btn pt-0 {{ if .takenCourses.showGrades }}ml-1{{ else }}ml-2{{ end }}"
+                                <button type="button"
+                                    class="btn btn-link show-more-btn pt-0 {{ if .takenCourses.showGrades }}ml-1{{ else }}ml-2{{ end }}"
                                     id="show-more-btn">{{ i18n "show_more"}}</button>
-                                    <button type="button" class="btn btn-link show-more-btn hidden pt-0 {{ if .takenCourses.showGrades }}ml-1{{ else }}ml-2{{ end }}"
+                                <button type="button"
+                                    class="btn btn-link show-more-btn hidden pt-0 {{ if .takenCourses.showGrades }}ml-1{{ else }}ml-2{{ end }}"
                                     id="show-less-btn">{{ i18n "show_less"}}</button>
                                 {{ end }}
                             </div>
@@ -100,11 +117,16 @@
                             <div class="extracurricular-activities">
                                 <h6 class="text-muted">{{ i18n "extracurricular_activities"}}</h6>
                                 <ul>
-                                {{ range .extracurricularActivities }}
+                                    {{ range .extracurricularActivities }}
                                     <li>{{ . }}</li>
-                                {{ end }}
+                                    {{ end }}
                                 </ul>
                             </div>
+                            {{ end }}
+                            {{ if .post }}
+                            <a href="{{ .post }}" target="_blank" rel="noopener"
+                                class="btn btn-light align-self-start btn-sm mt-3">Plus
+                                d'informations</a>
                             {{ end }}
                         </div>
                     </td>
