@@ -20,4 +20,9 @@
     {{ end }}
     </ul>
     {{ end }}
+    {{ if .company.post }}
+    <a href="{{ .company.post }}" target="_blank" rel="noopener"
+        class="btn btn-light align-self-start btn-sm mt-3">Plus
+        d'informations</a>
+    {{ end }}
 </div>
