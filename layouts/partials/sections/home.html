@@ -108,7 +108,8 @@
   ></div>
   <div class="container content text-center">
     <img src="{{ $authorImage.RelPermalink }}"
-      class="rounded-circle mx-auto d-block img-fluid"
+      class="rounded-circle mx-auto d-block img-fluid object-fit-cover"
+      style="object-fit: cover;"
       alt="Author Image"
     />
     <h1 class="greeting"> {{ $author.greeting }} {{ $name }}</h1>
