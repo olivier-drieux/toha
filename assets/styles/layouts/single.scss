@@ -129,7 +129,16 @@ body.kind-page {
   }
   
   .post-content {
+    color: #3c4858;
     padding: 15px;
+  }
+
+  .post-content p {
+    text-align: justify;
+  }
+  
+  .post-content h2 {
+    font-size: 1.8rem;
   }
   
   .post-content h1,
